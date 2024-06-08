@@ -10,9 +10,9 @@ const addItem: any = () => {
 
 <template>
   <button type="button"
-    class="group flx-center text-white font-bold cursor-pointer rounded-full duration-300 ease outline outline-transparent hover:outline-primary"
+    class="group flx-center text-secondary font-bold cursor-pointer rounded-full duration-300 ease outline outline-1 outline-transparent hover:outline-primary"
     @click="addItem">
-    <span class="group-hover:bg-transparent duration-300 ease rounded-full bg-primary  p-1 size-6 flx-center">
+    <span class="group-hover:bg-transparent duration-300 ease rounded-full bg-primary p-1 size-6 flx-center">
       <svg class="group-hover:translate-x-1 duration-200 ease group-hover:text-primary text-dark" width=" 12"
         height="12" viewBox="0 0 10 10" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -21,8 +21,11 @@ const addItem: any = () => {
       </svg>
     </span>
     <span
-      class="group-hover:bg-transparent duration-300 ease flx-center text-base rounded-full bg-primary py-1 px-2 uppercase leading-none max-h-6 min-h-6 font-medium">
-      <span class="group-hover:-translate-x-1 group-hover:text-primary duration-200 ease text-dark">{{ text }}</span>
+      class="group-hover:bg-transparent duration-300 ease flx-center rounded-full bg-primary py-1 px-2 leading-none max-h-6 min-h-6">
+      <span
+        class="group-hover:-translate-x-1 group-hover:text-primary duration-200 ease text-base font-[650] uppercase text-dark">
+        {{ text }}
+      </span>
     </span>
   </button>
 </template>

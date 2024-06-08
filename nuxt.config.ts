@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'fr' },
       bodyAttrs: {
         class:
-          'bg-dark px-[2vw] py-[2vh] font-satoshi min-h-svh overflow-x-clip',
+          'bg-dark text-secondary px-6 font-satoshi min-h-svh overflow-x-clip',
       },
       viewport: 'width=device-width, initial-scale=1, user-scalable=no',
       meta: [

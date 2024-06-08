@@ -30,10 +30,40 @@ $fontItalic: 'satoshi-italic';
   @apply flex items-center justify-center;
 }
 
+.absolute-center {
+  @apply absolute inset-0;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html {
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    @apply bg-primary/20;
+  }
+}
+
+#__nuxt {
+  @apply container;
+}
+
 *::selection {
   @apply bg-primary/20 text-white/80;
 }
 
 h1 {
   @apply text-center text-4xl font-black;
+}
+
+button,
+img {
+  @apply select-none;
 }
