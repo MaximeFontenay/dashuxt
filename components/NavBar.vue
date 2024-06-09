@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-const router = useRouter()
-
-console.log(router.currentRoute.value.path)
-
 </script>
 
 <template>
