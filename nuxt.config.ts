@@ -16,12 +16,18 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
+  runtimeConfig: {
+    supabaseURL: process.env.SUPABASE_URL,
+    supabaseKey: process.env.SUPABASE_KEY,
+    public: {},
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/eslint',
     'nuxt-phosphor-icons',
+    '@nuxtjs/supabase',
   ],
   eslint: {
     config: {

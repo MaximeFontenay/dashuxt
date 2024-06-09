@@ -2,7 +2,6 @@
 useSeoMeta({
   title: 'Dashuxt - Chat',
 })
-
 </script>
 
 <template>
