@@ -67,3 +67,8 @@ button,
 img {
   @apply select-none;
 }
+
+button,
+input[type='submit'] {
+  @apply cursor-pointer;
+}
