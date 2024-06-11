@@ -19,7 +19,16 @@ export default antfu({
     ],
     'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     'func-style': ['error', 'expression', { allowArrowFunctions: true }],
+    'vue/max-attributes-per-line': [
+      'error',
+      {
+        multiline: {
+          max: 1,
+        },
+      },
+    ],
   },
+
   ignores: [],
   plugins: ['prefer-arrow'],
 })

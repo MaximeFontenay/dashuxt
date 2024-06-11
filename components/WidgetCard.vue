@@ -8,7 +8,7 @@ defineProps({
   <article class="widget-card relative p-6 bg-white/1 rounded-lg flex flex-col gap-4">
     <div class="flex justify-between items-center gap-8">
       <div class="flex gap-1">
-        <h2 class="font-bold text-2xl">{{ title }}</h2>
+        <h2 class="font-bold text-2xl leading-6">{{ title }}</h2>
         <div class="opacity-15 -translate-y-2 text-primary">
           <slot name="icon" />
         </div>

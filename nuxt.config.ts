@@ -38,6 +38,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
+    '@vueuse/nuxt',
     '@pinia/nuxt',
     'nuxt-phosphor-icons',
   ],

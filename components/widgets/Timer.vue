@@ -35,10 +35,10 @@ const timerData = [
           <li v-for="timer in timerData" :key="timer.id" class="p-2 bg-primary/10 rounded">
             <div class="flex justify-between items-center mb-2">
               <h3 class="font-base text-sm">{{ timer.title }}</h3>
-              <p class="text-sm">{{ timer.time }}</p>
+              <p class="text-sm text-end">{{ timer.time }}</p>
             </div>
             <ul class="flex gap-1">
-              <li v-for="tag in timer.tag" :key="tag">
+              <li v-for="tag in timer.tag" :key="tag.text">
                 <Tag :color="tag.color" :text="tag.text" />
               </li>
             </ul>

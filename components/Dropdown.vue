@@ -6,6 +6,7 @@ const props = defineProps<{
 }>();
 
 const dropdown = ref<HTMLElement | null>(null)
+const dropdownContainer = ref<HTMLElement | null>(null)
 const showDropdown = ref<boolean>(false)
 const selectedDropdownValue = ref<string>(props.defaultValue)
 const dropdownValues = ref<string[]>(props.values)
@@ -14,27 +15,34 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
 }
 
+onClickOutside(dropdownContainer, () => {
+  if (showDropdown.value) {
+    showDropdown.value = false
+  }
+})
+
 </script>
 
 <template>
-  <div class="text-right relative" @click="toggleDropdown">
+  <div ref="dropdownContainer"
+    class="text-right relative select-none cursor-pointer ring-0 rounded px-2 duration-200 hover:text-primary"
+    tabindex=" 0" :aria-label="`Dropdown, current value: ${selectedDropdownValue}`" @click="toggleDropdown"
+    @keyup.enter="toggleDropdown" @keyup.space="toggleDropdown">
     <div class="flx-center gap-0.5 font-medium">
       {{ selectedDropdownValue }}
-      <svg class="duration-200 -rotate-90 p-0.5" :class="{ 'rotate-0': showDropdown }" width="16" height="16"
-        viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M13.3537 6.35378L8.35372 11.3538C8.30729 11.4003 8.25214 11.4372 8.19144 11.4623C8.13074 11.4875 8.06568 11.5004 7.99997 11.5004C7.93427 11.5004 7.8692 11.4875 7.8085 11.4623C7.7478 11.4372 7.69266 11.4003 7.64622 11.3538L2.64622 6.35378C2.5524 6.25996 2.49969 6.13272 2.49969 6.00003C2.49969 5.86735 2.5524 5.7401 2.64622 5.64628C2.74004 5.55246 2.86729 5.49976 2.99997 5.49976C3.13265 5.49976 3.2599 5.55246 3.35372 5.64628L7.99997 10.2932L12.6462 5.64628C12.6927 5.59983 12.7478 5.56298 12.8085 5.53784C12.8692 5.5127 12.9343 5.49976 13 5.49976C13.0657 5.49976 13.1307 5.5127 13.1914 5.53784C13.2521 5.56298 13.3073 5.59983 13.3537 5.64628C13.4002 5.69274 13.437 5.74789 13.4622 5.80859C13.4873 5.86928 13.5003 5.93434 13.5003 6.00003C13.5003 6.06573 13.4873 6.13079 13.4622 6.19148C13.437 6.25218 13.4002 6.30733 13.3537 6.35378Z"
-          fill="#E6E6E6" />
-      </svg>
+      <ICaretRight class="transition-transform duration-200 p-0.5" :class="{ 'rotate-90': showDropdown }" :size="16" />
     </div>
     <ol ref="dropdown"
       :class="{ 'opacity-100 pointer-events-auto': showDropdown, 'opacity-0 pointer-events-none': !showDropdown }"
       class="p-2 right-2.5 duration-300 rounded absolute bg-white/1 backdrop-blur-md border border-light/25 z-10 text-xs space-y-2">
-      <li v-for="value in dropdownValues" :key="value">
-        <button type="button" v-if="selectedDropdownValue !== value" @click="selectedDropdownValue = value">
-          {{ value }}
-        </button>
-      </li>
+      <template v-for="value in dropdownValues" :key="value">
+        <li v-if="selectedDropdownValue !== value">
+          <button class="tab text-light rounded-sm duration-200 hover:text-primary" type="button"
+            :tabindex="showDropdown ? 0 : -1" :aria-label="`Select ${value}`" @click="selectedDropdownValue = value">
+            {{ value }}
+          </button>
+        </li>
+      </template>
     </ol>
   </div>
 </template>
