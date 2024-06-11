@@ -7,7 +7,7 @@ defineProps({
 
 <template>
   <span :style="{ backgroundColor: color }"
-    class="text-dark text-xxxs px-1.5 pb-px flx-center rounded-full leading-3 select-none">
+    class="text-xxxs px-1.5 pb-px flx-center rounded-full leading-3 select-none">
     {{ text }}
   </span>
 </template>

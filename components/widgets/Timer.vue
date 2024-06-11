@@ -39,7 +39,7 @@ const timerData = [
             </div>
             <ul class="flex gap-1">
               <li v-for="tag in timer.tag" :key="tag.text">
-                <Tag :color="tag.color" :text="tag.text" />
+                <Tag class="text-dark" :color="tag.color" :text="tag.text" />
               </li>
             </ul>
           </li>

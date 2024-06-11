@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 const props = defineProps<{
   title?: string;
-  defaultValue: string;
+  defaultValue: string | number;
   values: string[];
 }>();
 
 const dropdown = ref<HTMLElement | null>(null)
 const dropdownContainer = ref<HTMLElement | null>(null)
 const showDropdown = ref<boolean>(false)
-const selectedDropdownValue = ref<string>(props.defaultValue)
+const selectedDropdownValue = ref<string | number>(props.defaultValue)
 const dropdownValues = ref<string[]>(props.values)
 
 const toggleDropdown = () => {
