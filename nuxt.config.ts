@@ -16,18 +16,30 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    redirect: true,
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      include: undefined,
+      exclude: [],
+      cookieRedirect: true,
+    },
+  },
   runtimeConfig: {
     supabaseURL: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
     public: {},
   },
   modules: [
-    '@nuxtjs/tailwindcss',
-    '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/eslint',
-    'nuxt-phosphor-icons',
+    '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
+    '@pinia/nuxt',
+    'nuxt-phosphor-icons',
   ],
   eslint: {
     config: {

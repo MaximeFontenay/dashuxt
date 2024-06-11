@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <NavBar />
+  <Navbar />
   <main class="">
     <NuxtPage />
   </main>
