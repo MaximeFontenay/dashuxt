@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     head: {
       title: 'Dashuxt',
       charset: 'utf-8',
-      htmlAttrs: { lang: 'fr' },
+      htmlAttrs: { lang: 'fr', class: 'custom-scrollbar' },
       bodyAttrs: {
         class:
           'bg-dark text-secondary px-6 font-satoshi min-h-svh overflow-x-clip',

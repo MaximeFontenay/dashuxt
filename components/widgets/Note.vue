@@ -1,8 +1,15 @@
 <script lang="ts" setup>
-const timerData = [
+const newNote = ref<boolean>(false)
+const newNoteText = ref<string>('')
+const noteEditing = ref<number | null>(null)
+const newNoteInput = ref<HTMLInputElement | null>(null)
+
+//TODO: get data from database
+const noteData = ref([
   {
     id: 1,
     title: 'Go to grocery',
+
   },
   {
     id: 2,
@@ -14,9 +21,46 @@ const timerData = [
   },
   {
     id: 4,
-    title: 'Buy the new BD in the library, locat...',
+    title: 'Buy the new BD in the library library library library library',
   },
-]
+])
+
+const newNoteButton = () => {
+  newNote.value = true
+  noteEditing.value = null
+  newNoteInput.value?.focus()
+}
+
+const addNote = () => {
+  //TODO: push data to database
+  if (newNoteText.value === '') return
+  noteData.value.push({
+    id: noteData.value.length + 1,
+    title: newNoteText.value,
+  })
+  newNote.value = false
+  newNoteText.value = ''
+}
+
+const editNote = (id: number) => {
+  noteEditing.value = id
+  console.log('edit', id)
+}
+
+const confirmNote = (id?: number) => {
+  //TODO: edit data in database
+  noteEditing.value = null
+}
+
+const deleteNote = (id?: number) => {
+  if (id) {
+    noteData.value = noteData.value.filter((note) => note.id !== id)
+  }
+  noteEditing.value = null
+  newNote.value = false
+  newNoteText.value = ''
+}
+
 </script>
 
 <template>
@@ -25,17 +69,69 @@ const timerData = [
       <INoteBlank :size="24" />
     </template>
     <template #button>
-      <AddButton text="note" />
+      <AddButton text="note" @click="newNoteButton" />
     </template>
     <template #content>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2" v-if="noteData.length || newNote">
         <ol class="space-y-2">
-          <li v-for="timer in timerData" :key="timer.id" class="p-2 bg-primary/10 rounded">
-            <div class="flex justify-between items-stretch">
-              <h3 class="font-base text-sm">{{ timer.title }}</h3>
-              <button type="button" class="flx-center text-light/40 duration-200 w-5 aspect-square hover:text-light">
-                <IPencilSimple :size="12" />
-              </button>
+          <li v-for="note in noteData" :key="note.id" class="p-2 bg-primary/10 rounded">
+            <div class="flex justify-between items-center gap-2">
+              <template v-if="noteEditing === note.id">
+                <textarea class="input-note custom-scrollbar" v-model="note.title"></textarea>
+                <div class="flx-center flex-col gap-1">
+                  <Tooltip>
+                    <template #text>
+                      <button type="button" class="valid-button" @click="confirmNote(note.id)">
+                        <ICheck :size="16" />
+                      </button>
+                    </template>
+                    <template #content>
+                      <p class="text-xs">Valider</p>
+                    </template>
+                  </Tooltip>
+                  <Tooltip>
+                    <template #text>
+                      <button type="button" class="unvalid-button" @click="deleteNote(note.id)">
+                        <IX :size="16" />
+                      </button>
+                    </template>
+                    <template #content>
+                      <p class="text-xs">Supprimer</p>
+                    </template>
+                  </Tooltip>
+                </div>
+              </template>
+              <template v-else>
+                <h3 class="py-2 font-base text-sm text-ellipsis whitespace-nowrap overflow-clip">{{
+                  note.title }}
+                </h3>
+                <Tooltip v-show="!noteEditing && !newNote">
+                  <template #text>
+                    <button type="button"
+                      class="flx-center text-light/40 duration-200 w-5 min-w-5 aspect-square hover:text-light"
+                      @click="editNote(note.id)">
+                      <IPencilSimple :size="16" />
+                    </button>
+                  </template>
+                  <template #content>
+                    <p class="text-xs">Editer</p>
+                  </template>
+                </Tooltip>
+              </template>
+            </div>
+          </li>
+          <li v-show="newNote" class="p-2 bg-primary/10 rounded">
+            <div class="flex justify-between items-center gap-2">
+              <textarea ref="newNoteInput" class="input-note custom-scrollbar" v-model="newNoteText"
+                @keyup.enter="addNote" placeholder="Nouvelle note..."></textarea>
+              <div class="flx-center flex-col gap-1">
+                <button type="button" class="valid-button" @click="addNote" :disabled="newNoteText.length === 0">
+                  <ICheck :size="16" />
+                </button>
+                <button type="button" class="unvalid-button" @click="deleteNote()">
+                  <IX :size="16" />
+                </button>
+              </div>
             </div>
           </li>
         </ol>
@@ -44,4 +140,16 @@ const timerData = [
   </WidgetCard>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+.input-note {
+  @apply text-sm p-2 bg-primary/10 rounded w-full outline outline-1 outline-transparent focus-visible:outline-primary placeholder:text-xs placeholder:text-light/80;
+}
+
+.valid-button {
+  @apply flex items-center justify-center text-green duration-200 w-5 min-w-5 aspect-square hover:opacity-80 disabled:opacity-50 disabled:pointer-events-none;
+}
+
+.unvalid-button {
+  @apply flex items-center justify-center duration-200 w-5 min-w-5 aspect-square text-red hover:opacity-80;
+}
+</style>

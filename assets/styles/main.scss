@@ -26,23 +26,37 @@ $fontItalic: 'satoshi-italic';
   font-style: italic;
 }
 
-.flx-center {
-  @apply flex items-center justify-center;
-}
+@layer utilities {
+  .flx-center {
+    @apply flex items-center justify-center;
+  }
 
-.absolute-center {
-  @apply absolute inset-0;
-}
+  .absolute-center {
+    @apply absolute inset-0;
+  }
 
-.scrollbar-hide {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
 html {
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    @apply bg-primary/20;
+  }
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
   scrollbar-gutter: stable;
 
   &::-webkit-scrollbar {
@@ -82,6 +96,32 @@ img {
 button,
 input[type='submit'] {
   @apply cursor-pointer;
+}
+
+textarea {
+  resize: none;
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.primary') transparent;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: theme('colors.primary');
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 .tab,
