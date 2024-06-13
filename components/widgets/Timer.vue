@@ -32,7 +32,7 @@ const timerData = [
     <template #content>
       <div class="flex flex-col gap-2">
         <ol class="space-y-2">
-          <li v-for="timer in timerData" :key="timer.id" class="p-2 bg-primary/10 rounded">
+          <li v-for="timer in timerData" :key="timer.id" class="py-2 px-3 bg-primary/10 rounded">
             <div class="flex justify-between items-center mb-2">
               <h3 class="font-base text-sm">{{ timer.title }}</h3>
               <p class="text-sm text-end">{{ timer.time }}</p>

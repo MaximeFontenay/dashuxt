@@ -72,70 +72,72 @@ const deleteNote = (id?: number) => {
       <AddButton text="note" @click="newNoteButton" />
     </template>
     <template #content>
-      <div class="flex flex-col gap-2" v-if="noteData.length || newNote">
-        <ol class="space-y-2">
-          <li v-for="note in noteData" :key="note.id" class="p-2 bg-primary/10 rounded">
-            <div class="flex justify-between items-center gap-2">
-              <template v-if="noteEditing === note.id">
-                <textarea class="input-note custom-scrollbar" v-model="note.title"></textarea>
-                <div class="flx-center flex-col gap-1">
-                  <Tooltip>
+      <Transition>
+        <div class="flex flex-col gap-2" v-if="noteData.length || newNote">
+          <ol class="space-y-2">
+            <li v-for="note in noteData" :key="note.id" class="py-2 px-3 bg-primary/10 rounded">
+              <div class="flex justify-between items-center gap-3">
+                <template v-if="noteEditing === note.id">
+                  <textarea class="input-note custom-scrollbar" v-model="note.title"></textarea>
+                  <div class="flx-center flex-col gap-2">
+                    <Tooltip>
+                      <template #text>
+                        <button type="button" class="valid-button" @click="confirmNote(note.id)">
+                          <ICheck :size="16" />
+                        </button>
+                      </template>
+                      <template #content>
+                        <p class="text-xs">Valider</p>
+                      </template>
+                    </Tooltip>
+                    <Tooltip>
+                      <template #text>
+                        <button type="button" class="unvalid-button" @click="deleteNote(note.id)">
+                          <IX :size="16" />
+                        </button>
+                      </template>
+                      <template #content>
+                        <p class="text-xs">Supprimer</p>
+                      </template>
+                    </Tooltip>
+                  </div>
+                </template>
+                <template v-else>
+                  <h3 class="py-2 font-base text-sm text-ellipsis whitespace-nowrap overflow-clip">{{
+        note.title }}
+                  </h3>
+                  <Tooltip v-show="!noteEditing && !newNote">
                     <template #text>
-                      <button type="button" class="valid-button" @click="confirmNote(note.id)">
-                        <ICheck :size="16" />
+                      <button type="button"
+                        class="flx-center text-light/40 duration-200 w-5 min-w-5 aspect-square hover:text-light"
+                        @click="editNote(note.id)">
+                        <IPencilSimple :size="16" />
                       </button>
                     </template>
                     <template #content>
-                      <p class="text-xs">Valider</p>
+                      <p class="text-xs">Editer</p>
                     </template>
                   </Tooltip>
-                  <Tooltip>
-                    <template #text>
-                      <button type="button" class="unvalid-button" @click="deleteNote(note.id)">
-                        <IX :size="16" />
-                      </button>
-                    </template>
-                    <template #content>
-                      <p class="text-xs">Supprimer</p>
-                    </template>
-                  </Tooltip>
-                </div>
-              </template>
-              <template v-else>
-                <h3 class="py-2 font-base text-sm text-ellipsis whitespace-nowrap overflow-clip">{{
-                  note.title }}
-                </h3>
-                <Tooltip v-show="!noteEditing && !newNote">
-                  <template #text>
-                    <button type="button"
-                      class="flx-center text-light/40 duration-200 w-5 min-w-5 aspect-square hover:text-light"
-                      @click="editNote(note.id)">
-                      <IPencilSimple :size="16" />
-                    </button>
-                  </template>
-                  <template #content>
-                    <p class="text-xs">Editer</p>
-                  </template>
-                </Tooltip>
-              </template>
-            </div>
-          </li>
-          <li v-show="newNote" class="p-2 bg-primary/10 rounded">
-            <div class="flex justify-between items-center gap-2">
-              <textarea ref="newNoteInput" class="input-note custom-scrollbar" v-model="newNoteText"
-                @keyup.enter="addNote" placeholder="Nouvelle note..."></textarea>
-              <div class="flx-center flex-col gap-1">
-                <button type="button" class="valid-button" @click="addNote" :disabled="newNoteText.length === 0">
-                  <ICheck :size="16" />
-                </button>
-                <button type="button" class="unvalid-button" @click="deleteNote()">
-                  <IX :size="16" />
-                </button>
+                </template>
               </div>
-            </div>
-          </li>
-        </ol>
-      </div>
+            </li>
+            <li v-if="newNote" class="py-2 px-3 bg-primary/10 rounded">
+              <div class="flex justify-between items-center gap-3">
+                <textarea ref="newNoteInput" class="input-note custom-scrollbar" v-model="newNoteText"
+                  @keyup.enter="addNote" placeholder="Nouvelle note..."></textarea>
+                <div class="flx-center flex-col gap-2">
+                  <button type="button" class="valid-button" @click="addNote" :disabled="newNoteText.length === 0">
+                    <ICheck :size="16" />
+                  </button>
+                  <button type="button" class="unvalid-button" @click="deleteNote()">
+                    <IX :size="16" />
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </Transition>
     </template>
   </WidgetCard>
 </template>

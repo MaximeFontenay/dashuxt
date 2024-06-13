@@ -5,6 +5,10 @@ const props = defineProps<{
   values: string[];
 }>();
 
+const emit = defineEmits<{
+  changeValue: [value: string];
+}>()
+
 const dropdown = ref<HTMLElement | null>(null)
 const dropdownContainer = ref<HTMLElement | null>(null)
 const showDropdown = ref<boolean>(false)
@@ -13,6 +17,13 @@ const dropdownValues = ref<string[]>(props.values)
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
+}
+
+const selectDropdownValue = (value: string) => {
+  //todo: find a way to close the dropdown when a value is selected
+  selectedDropdownValue.value = value
+  showDropdown.value = false
+  emit('changeValue', value)
 }
 
 onClickOutside(dropdownContainer, () => {
@@ -35,10 +46,11 @@ onClickOutside(dropdownContainer, () => {
     <ol ref="dropdown"
       :class="{ 'opacity-100 pointer-events-auto': showDropdown, 'opacity-0 pointer-events-none': !showDropdown }"
       class="p-2 right-2.5 duration-300 rounded absolute bg-white/1 backdrop-blur-md border border-light/25 z-10 text-xs space-y-2">
+      {{ showDropdown }}
       <template v-for="value in dropdownValues" :key="value">
         <li v-if="selectedDropdownValue !== value">
           <button class="tab text-light rounded-sm duration-200 hover:text-primary" type="button"
-            :tabindex="showDropdown ? 0 : -1" :aria-label="`Select ${value}`" @click="selectedDropdownValue = value">
+            :tabindex="showDropdown ? 0 : -1" :aria-label="`Select ${value}`" @click="selectDropdownValue(value)">
             {{ value }}
           </button>
         </li>

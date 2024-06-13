@@ -28,6 +28,10 @@ onMounted(() => {
     backgroundColor: props.color,
   };
 });
+
+onUnmounted(() => {
+  divStyle.value = {};
+});
 </script>
 
 <template>

@@ -7,4 +7,5 @@
   <main class="">
     <NuxtPage />
   </main>
+  <Toasts />
 </template>

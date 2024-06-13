@@ -44,8 +44,8 @@ const setActiveMonth = (month: number) => {
   activeMonth.value = month
 }
 
-const setActiveYear = (year: number) => {
-  activeYear.value = year
+const setActiveYear = (year: number | string) => {
+  activeYear.value = (typeof year === 'number') ? year : parseInt(year)
 }
 
 const monthsContainer = ref<HTMLElement | null>(null)
@@ -102,9 +102,9 @@ watch([activeMonth, activeYear], () => {
   refreshSelectedMonth()
 })
 
-onMounted(() => {
+onUnmounted(() => {
+  if (monthsContainer.value) monthsContainer.value.removeEventListener('scroll', updateArrowVisibility);
 })
-
 </script>
 
 <template>
@@ -113,13 +113,13 @@ onMounted(() => {
       <ICalendar :size="24" />
     </template>
     <template #button>
-      <Dropdown :values="yearValues" :defaultValue="activeYear" @change="setActiveYear" />
+      <Dropdown :values="yearValues" :defaultValue="activeYear" @changeValue="setActiveYear" />
     </template>
     <template #content>
       <div class="flex flex-col gap-2">
         <div class="relative w-full">
           <div v-show="showLeftArrow"
-            class="max-md:hidden absolute top-1/2 -translate-y-1/2 -left-4 flx-center cursor-pointer size-5"
+            class="max-md:hidden absolute top-1/2 -translate-y-1/2 -left-4 flx-center cursor-pointer size-5 duration-300 hover:text-primary"
             @click="scrollMonthContainer('left')">
             <ICaretLeft :size="16" />
           </div>
@@ -137,23 +137,23 @@ onMounted(() => {
             </li>
           </ol>
           <div v-show="showRightArrow"
-            class="max-md:hidden absolute top-1/2 -translate-y-1/2 -right-4 flx-center cursor-pointer size-5"
+            class="max-md:hidden absolute top-1/2 -translate-y-1/2 -right-4 flx-center cursor-pointer size-5 duration-300 hover:text-primary"
             @click="scrollMonthContainer('right')">
             <ICaretRight :size="16" />
           </div>
         </div>
-        <ol class="grid grid-cols-7 gap-4 w-fit place-items-center mx-auto">
-          <li v-for="n in 7" :key="n" class="text-light/50 -mb-3">
+        <ol class="grid grid-cols-7 gap-4 w-fit place-items-center mx-auto mt-2">
+          <li v-for="n in 7" :key="n" class="text-light/50 -mb-3 min-w-[26px]">
             <Tag :text="['L', 'M', 'M', 'J', 'V', 'S', 'D'][n - 1]" />
           </li>
           <li v-for="n in firstDayInSelectedMonth" :key="n"></li>
           <li v-for="n in daysNumberInSelectedMonth" :key="n"
             class="flx-center border border-light/50 text-light/50 text-xs rounded duration-150" :class="[
-              currentMonth === activeMonth && currentDay === n ? 'bg-primary !text-dark font-semibold border-primary' : '',
-              currentDay === n && activeDay === n ? 'outline-1 outline outline-offset-2 outline-primary pointer-events-none' : '',
-              activeDay === n && currentDay !== n ? 'bg-primary/15 border-primary/50 text-primary pointer-events-none' : '',
-              activeDay !== n && currentDay !== n ? 'hover:bg-primary/10 hover:border-primary/50 hover:text-light/80' : ''
-            ]">
+        currentMonth === activeMonth && currentDay === n ? 'bg-primary !text-dark font-semibold border-primary' : '',
+        currentDay === n && activeDay === n ? 'outline-1 outline outline-offset-2 outline-primary pointer-events-none' : '',
+        activeDay === n && currentDay !== n ? 'bg-primary/15 border-primary/50 text-primary pointer-events-none' : '',
+        activeDay !== n && currentDay !== n ? 'hover:bg-primary/10 hover:border-primary/50 hover:text-light/80' : ''
+      ]">
             <button type="button" @click="setActiveDay(n)"
               class="tab size-6 rounded-[3px] !outline-offset-2 focus-visible:bg-primary/10 focus-visible:border-primary/10 focus-visible:text-primary">
               {{ n }}</button>
