@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+
+const { addToast } = useToasts()
+
 const newNote = ref<boolean>(false)
 const newNoteText = ref<string>('')
 const noteEditing = ref<number | null>(null)
@@ -9,7 +12,6 @@ const noteData = ref([
   {
     id: 1,
     title: 'Go to grocery',
-
   },
   {
     id: 2,
@@ -40,6 +42,7 @@ const addNote = () => {
   })
   newNote.value = false
   newNoteText.value = ''
+  addToast('Note ajoutée', 'success')
 }
 
 const editNote = (id: number) => {
@@ -50,6 +53,7 @@ const editNote = (id: number) => {
 const confirmNote = (id?: number) => {
   //TODO: edit data in database
   noteEditing.value = null
+  addToast('Note modifiée', 'success')
 }
 
 const deleteNote = (id?: number) => {
@@ -59,6 +63,7 @@ const deleteNote = (id?: number) => {
   noteEditing.value = null
   newNote.value = false
   newNoteText.value = ''
+  addToast('Note supprimée', 'success')
 }
 
 </script>
@@ -104,7 +109,7 @@ const deleteNote = (id?: number) => {
                 </template>
                 <template v-else>
                   <h3 class="py-2 font-base text-sm text-ellipsis whitespace-nowrap overflow-clip">{{
-        note.title }}
+                    note.title }}
                   </h3>
                   <Tooltip v-show="!noteEditing && !newNote">
                     <template #text>

@@ -46,7 +46,6 @@ onClickOutside(dropdownContainer, () => {
     <ol ref="dropdown"
       :class="{ 'opacity-100 pointer-events-auto': showDropdown, 'opacity-0 pointer-events-none': !showDropdown }"
       class="p-2 right-2.5 duration-300 rounded absolute bg-white/1 backdrop-blur-md border border-light/25 z-10 text-xs space-y-2">
-      {{ showDropdown }}
       <template v-for="value in dropdownValues" :key="value">
         <li v-if="selectedDropdownValue !== value">
           <button class="tab text-light rounded-sm duration-200 hover:text-primary" type="button"
